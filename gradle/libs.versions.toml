@@ -109,7 +109,6 @@ room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", vers
 
 
 [plugins]
-
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "agp" }
@@ -121,3 +120,4 @@ org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org
 room = { id = "androidx.room", version.ref = "room" }
 runique-android-application = { id = "runique.android.application", version = "unspecified" }
 runique-android-application-compose = { id = "runique.android.application.compose", version = "unspecified" }
+runique-android-library = { id = "runique.android.library", version = "unspecified" }
