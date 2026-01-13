@@ -1,6 +1,7 @@
 package com.plcoding.convention
 
 import com.android.build.api.dsl.CommonExtension
+import eu.indiewalkabout.convention.libs
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 

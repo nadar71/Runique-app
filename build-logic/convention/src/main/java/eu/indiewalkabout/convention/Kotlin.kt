@@ -1,7 +1,6 @@
 package eu.indiewalkabout.convention
 
 import com.android.build.api.dsl.CommonExtension
-import com.plcoding.convention.libs
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
