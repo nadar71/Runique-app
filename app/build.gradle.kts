@@ -1,21 +1,16 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.mapsplatform.secrets.plugin)
+    alias(libs.plugins.runique.android.application)
 }
 
 android {
-    namespace = "eu.indiewalkabout.runique"
-    compileSdk = 35
+    namespace = "com.plcoding.runique"
 
     defaultConfig {
-        applicationId = "eu.indiewalkabout.runique"
-        minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -27,15 +22,17 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
         compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
@@ -78,4 +75,20 @@ dependencies {
 
     // Timber
     implementation(libs.timber)
+
+    implementation(projects.core.presentation.designsystem)
+    implementation(projects.core.presentation.ui)
+    implementation(projects.core.domain)
+    implementation(projects.core.data)
+    implementation(projects.core.database)
+
+    implementation(projects.auth.presentation)
+    implementation(projects.auth.domain)
+    implementation(projects.auth.data)
+
+    implementation(projects.run.presentation)
+    implementation(projects.run.domain)
+    implementation(projects.run.data)
+    implementation(projects.run.location)
+    implementation(projects.run.network)
 }
