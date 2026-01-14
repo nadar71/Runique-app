@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace = "eu.indiewalkabout.auth.presentation"
 }
 
 dependencies {
