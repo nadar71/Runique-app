@@ -1,4 +1,4 @@
-package eu.indiewalkabout.runique.ui.theme
+package eu.indiewalkabout.core.presentation.designsystem
 
 import androidx.compose.ui.graphics.Color
 

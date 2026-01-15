@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.plcoding.runique"
+    namespace = "eu.indiewalkabout.runique"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

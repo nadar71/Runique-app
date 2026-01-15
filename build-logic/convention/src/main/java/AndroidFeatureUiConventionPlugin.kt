@@ -1,4 +1,4 @@
-import com.plcoding.convention.addUiLayerDependencies
+import eu.indiewalkabout.convention.addUiLayerDependencies
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
