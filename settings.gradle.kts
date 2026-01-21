@@ -14,6 +14,8 @@ dependencyResolutionManagement {
     }
 }
 
+gradle.startParameter.excludedTaskNames.addAll(listOf(":build-logic:convention:testClasses"))
+
 rootProject.name = "Runique"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS") // This allows i.e. implementation(projects.auth.domain) instead of hardcoded strings.
