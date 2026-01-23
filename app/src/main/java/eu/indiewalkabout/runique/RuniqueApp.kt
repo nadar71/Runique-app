@@ -3,6 +3,7 @@ package eu.indiewalkabout.runique
 import android.app.Application
 import eu.indiewalkabout.auth.data.di.authDataModule
 import eu.indiewalkabout.auth.presentation.di.authViewModelModule
+import eu.indiewalkabout.core.data.di.coreDataModule
 import eu.indiewalkabout.runique.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,7 +24,8 @@ class RuniqueApp: Application() {
             modules(
                 authDataModule,
                 authViewModelModule,
-                appModule
+                appModule,
+                coreDataModule
             )
         }
     }
