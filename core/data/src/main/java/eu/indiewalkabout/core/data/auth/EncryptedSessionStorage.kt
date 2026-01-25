@@ -1,3 +1,5 @@
+@file:OptIn(InternalSerializationApi::class)
+
 package eu.indiewalkabout.core.data.auth
 
 import android.content.SharedPreferences
@@ -8,6 +10,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import androidx.core.content.edit
+import kotlinx.serialization.InternalSerializationApi
 
 class EncryptedSessionStorage(
     private val sharedPreferences: SharedPreferences
