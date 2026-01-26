@@ -1,12 +1,12 @@
 package eu.indiewalkabout.runique
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import eu.indiewalkabout.run.presentation.active_run.ActiveRunScreenRoot
 import eu.indiewalkabout.auth.presentation.intro.IntroScreenRoot
 import eu.indiewalkabout.auth.presentation.login.LoginScreenRoot
 import eu.indiewalkabout.auth.presentation.register.RegisterScreenRoot
@@ -86,7 +86,14 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
         route = "run"
     ) {
         composable("run_overview") {
-            RunOverviewScreenRoot()
+            RunOverviewScreenRoot(
+                onStartRunClick = {
+                    navController.navigate("active_run")
+                }
+            )
+        }
+        composable("active_run") {
+            ActiveRunScreenRoot()
         }
     }
 }
