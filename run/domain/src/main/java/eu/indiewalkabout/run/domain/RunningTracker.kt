@@ -4,7 +4,6 @@ package eu.indiewalkabout.run.domain
 
 import eu.indiewalkabout.core.domain.Timer
 import eu.indiewalkabout.core.domain.location.LocationTimestamp
-import jdk.jfr.internal.OldObjectSample.emit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
