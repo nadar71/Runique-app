@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import eu.indiewalkabout.run.presentation.active_run.maps.TrackerMap
 import eu.indiewalkabout.core.presentation.designsystem.RuniqueTheme
 import eu.indiewalkabout.core.presentation.designsystem.StartIcon
 import eu.indiewalkabout.core.presentation.designsystem.StopIcon
@@ -141,6 +142,14 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.currentLocation,
+                locations = state.runData.locations,
+                onSnapshot = {},
+                modifier = Modifier
+                    .fillMaxSize()
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,

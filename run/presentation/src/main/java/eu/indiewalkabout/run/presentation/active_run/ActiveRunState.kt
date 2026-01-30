@@ -3,6 +3,7 @@ package eu.indiewalkabout.run.presentation.active_run
 import eu.indiewalkabout.core.domain.location.Location
 import eu.indiewalkabout.run.domain.RunData
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 data class ActiveRunState(
     val elapsedTime: Duration = Duration.ZERO,
