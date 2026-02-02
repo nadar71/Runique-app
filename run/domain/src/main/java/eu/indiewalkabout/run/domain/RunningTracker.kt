@@ -5,6 +5,7 @@ package eu.indiewalkabout.run.domain
 import eu.indiewalkabout.core.domain.Timer
 import eu.indiewalkabout.core.domain.location.LocationTimestamp
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,13 +16,13 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlin.time.Duration
-import kotlinx.coroutines.flow.onEach
-import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.flow.zip
 import kotlin.math.roundToInt
-
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 class RunningTracker(
     private val locationObserver: LocationObserver,
@@ -50,6 +51,17 @@ class RunningTracker(
 
     init {
         isTracking
+            .onEach { isTracking ->
+                if(!isTracking) {
+                    val newList = buildList {
+                        addAll(runData.value.locations)
+                        add(emptyList<LocationTimestamp>())
+                    }.toList()
+                    _runData.update { it.copy(
+                        locations = newList
+                    ) }
+                }
+            }
             .flatMapLatest { isTracking ->
                 if(isTracking) {
                     Timer.timeAndEmit()
