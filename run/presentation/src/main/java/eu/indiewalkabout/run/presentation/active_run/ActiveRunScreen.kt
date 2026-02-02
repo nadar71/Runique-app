@@ -27,6 +27,7 @@ import eu.indiewalkabout.run.presentation.active_run.maps.TrackerMap
 import eu.indiewalkabout.core.presentation.designsystem.RuniqueTheme
 import eu.indiewalkabout.core.presentation.designsystem.StartIcon
 import eu.indiewalkabout.core.presentation.designsystem.StopIcon
+import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueActionButton
 import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueDialog
 import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueFloatingActionButton
 import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueOutlinedActionButton
@@ -161,17 +162,49 @@ private fun ActiveRunScreen(
         }
     }
 
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RuniqueDialog(
+            title = stringResource(id = R.string.running_is_paused),
+            onDismiss = {
+                onAction(ActiveRunAction.OnResumeRunClick)
+            },
+            description = stringResource(id = R.string.resume_or_finish_run),
+            primaryButton = {
+                RuniqueActionButton(
+                    text = stringResource(id = R.string.resume),
+                    isLoading = false,
+                    onClick = {
+                        onAction(ActiveRunAction.OnResumeRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            },
+            secondaryButton = {
+                RuniqueOutlinedActionButton(
+                    text = stringResource(id = R.string.finish),
+                    isLoading = state.isSavingRun,
+                    onClick = {
+                        onAction(ActiveRunAction.OnFinishRunClick)
+                    },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        )
+    }
+
     if (state.showLocationRationale || state.showNotificationRationale) {
         RuniqueDialog(
             title = stringResource(id = R.string.permission_required),
             onDismiss = { /* Normal dismissing not allowed for permissions */ },
             description = when {
                 state.showLocationRationale && state.showNotificationRationale -> {
-                   stringResource(id = R.string.location_notification_rationale)
+                    stringResource(id = R.string.location_notification_rationale)
                 }
+
                 state.showLocationRationale -> {
                     stringResource(id = R.string.location_rationale)
                 }
+
                 else -> {
                     stringResource(id = R.string.notification_rationale)
                 }
@@ -183,7 +216,7 @@ private fun ActiveRunScreen(
                     onClick = {
                         onAction(ActiveRunAction.DismissRationaleDialog)
                         permissionLauncher.requestRuniquePermissions(context)
-                    }
+                    },
                 )
             }
         )
@@ -200,7 +233,7 @@ private fun ActivityResultLauncher<Array<String>>.requestRuniquePermissions(
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.ACCESS_FINE_LOCATION,
     )
-    val notificationPermission = if(Build.VERSION.SDK_INT >= 33) {
+    val notificationPermission = if (Build.VERSION.SDK_INT >= 33) {
         arrayOf(Manifest.permission.POST_NOTIFICATIONS)
     } else arrayOf()
 
@@ -208,6 +241,7 @@ private fun ActivityResultLauncher<Array<String>>.requestRuniquePermissions(
         !hasLocationPermission && !hasNotificationPermission -> {
             launch(locationPermissions + notificationPermission)
         }
+
         !hasLocationPermission -> launch(locationPermissions)
         !hasNotificationPermission -> launch(notificationPermission)
     }
