@@ -6,24 +6,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import eu.indiewalkabout.run.presentation.active_run.service.ActiveRunService
 import eu.indiewalkabout.run.domain.RunningTracker
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
-import org.koin.core.KoinApplication.Companion.init
 
 class ActiveRunViewModel(
     private val runningTracker: RunningTracker
 ): ViewModel() {
 
-    var state by mutableStateOf(ActiveRunState())
+    var state by mutableStateOf(ActiveRunState(
+        shouldTrack = ActiveRunService.isServiceActive && runningTracker.isTracking.value,
+        hasStartedRunning = ActiveRunService.isServiceActive
+    ))
         private set
 
     private val eventChannel = Channel<ActiveRunEvent>()
@@ -115,6 +116,13 @@ class ActiveRunViewModel(
                 )
             }
             else -> Unit
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        if(!ActiveRunService.isServiceActive) {
+            runningTracker.stopObservingLocation()
         }
     }
 }
