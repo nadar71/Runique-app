@@ -6,6 +6,7 @@ import eu.indiewalkabout.run.presentation.di.runPresentationModule
 import eu.indiewalkabout.auth.data.di.authDataModule
 import eu.indiewalkabout.auth.presentation.di.authViewModelModule
 import eu.indiewalkabout.core.data.di.coreDataModule
+import eu.indiewalkabout.core.database.di.databaseModule
 import eu.indiewalkabout.runique.di.appModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -33,7 +34,8 @@ class RuniqueApp: Application() {
                 appModule,
                 coreDataModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule
             )
         }
     }
