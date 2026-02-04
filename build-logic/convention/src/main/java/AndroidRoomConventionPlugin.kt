@@ -15,6 +15,7 @@ class AndroidRoomConventionPlugin: Plugin<Project> {
             }
 
             extensions.configure<RoomExtension> {
+                // The schema directory should be relative to the project
                 schemaDirectory("$projectDir/schemas")
             }
 

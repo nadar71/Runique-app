@@ -7,7 +7,8 @@ import eu.indiewalkabout.core.database.entity.RunEntity
 
 @Database(
     entities = [RunEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class RunDatabase: RoomDatabase() {
 
