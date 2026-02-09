@@ -3,6 +3,7 @@ package eu.indiewalkabout.convention
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.DynamicFeatureExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.gradle.api.Project
@@ -16,8 +17,9 @@ internal fun Project.configureBuildTypes(
         buildFeatures {
             buildConfig = true
         }
+	// set in local.properties, not stored in repo
 
-        val apiKey = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") // set in local.properties, not stored in repo
+        val apiKey = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
         when(extensionType) {
             ExtensionType.APPLICATION -> {
                 extensions.configure<ApplicationExtension> {
@@ -39,6 +41,19 @@ internal fun Project.configureBuildTypes(
                         }
                         release {
                             configureReleaseBuildType(commonExtension, apiKey)
+                        }
+                    }
+                }
+            }
+            ExtensionType.DYNAMIC_FEATURE -> {
+                extensions.configure<DynamicFeatureExtension> {
+                    buildTypes {
+                        debug {
+                            configureDebugBuildType(apiKey)
+                        }
+                        release {
+                            configureReleaseBuildType(commonExtension, apiKey)
+                            isMinifyEnabled = false
                         }
                     }
                 }
