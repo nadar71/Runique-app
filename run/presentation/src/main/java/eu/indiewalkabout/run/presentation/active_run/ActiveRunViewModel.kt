@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.indiewalkabout.core.domain.location.Location
 import eu.indiewalkabout.core.domain.run.Run
+import eu.indiewalkabout.core.domain.run.RunRepository
 import eu.indiewalkabout.run.domain.LocationDataCalculator
 import eu.indiewalkabout.run.presentation.active_run.service.ActiveRunService
 import eu.indiewalkabout.run.domain.RunningTracker
@@ -22,9 +23,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import eu.indiewalkabout.core.domain.util.Result
+import eu.indiewalkabout.core.presentation.ui.asUiText
+
 
 class ActiveRunViewModel(
-    private val runningTracker: RunningTracker
+    private val runningTracker: RunningTracker,
+    private val runRepository: RunRepository
 ): ViewModel() {
 
     var state by mutableStateOf(ActiveRunState(
@@ -150,9 +155,17 @@ class ActiveRunViewModel(
                 mapPictureUrl = null
             )
 
-            // Save run in repository
-
             runningTracker.finishRun()
+
+            when(val result = runRepository.upsertRun(run, mapPictureBytes)) {
+                is Result.Error -> {
+                    eventChannel.send(ActiveRunEvent.Error(result.error.asUiText()))
+                }
+                is Result.Success -> {
+                    eventChannel.send(ActiveRunEvent.RunSaved)
+                }
+            }
+
             state = state.copy(isSavingRun = false)
         }
     }

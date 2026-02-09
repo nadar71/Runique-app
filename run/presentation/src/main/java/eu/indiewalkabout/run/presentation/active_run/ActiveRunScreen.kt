@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -34,6 +35,7 @@ import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueFloati
 import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueOutlinedActionButton
 import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueScaffold
 import eu.indiewalkabout.core.presentation.designsystem.components.RuniqueToolbar
+import eu.indiewalkabout.core.presentation.ui.ObserveAsEvents
 import eu.indiewalkabout.run.presentation.active_run.components.RunDataCard
 import org.koin.androidx.compose.koinViewModel
 import eu.indiewalkabout.run.presentation.R
@@ -44,16 +46,40 @@ import eu.indiewalkabout.run.presentation.util.shouldShowLocationPermissionRatio
 import eu.indiewalkabout.run.presentation.util.shouldShowNotificationPermissionRationale
 import java.io.ByteArrayOutputStream
 
-
 @Composable
 fun ActiveRunScreenRoot(
+    onFinish: () -> Unit,
+    onBack: () -> Unit,
     onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel(),
 ) {
+    val context = LocalContext.current
+    ObserveAsEvents(flow = viewModel.events) { event ->
+        when(event) {
+            is ActiveRunEvent.Error -> {
+                Toast.makeText(
+                    context,
+                    event.error.asString(context),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            ActiveRunEvent.RunSaved -> onFinish()
+        }
+    }
     ActiveRunScreen(
         state = viewModel.state,
         onServiceToggle = onServiceToggle,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when(action) {
+                is ActiveRunAction.OnBackClick -> {
+                    if(!viewModel.state.hasStartedRunning) {
+                        onBack()
+                    }
+                }
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 

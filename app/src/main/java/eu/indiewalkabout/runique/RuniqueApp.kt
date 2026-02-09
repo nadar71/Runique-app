@@ -1,6 +1,7 @@
 package eu.indiewalkabout.runique
 
 import android.app.Application
+import eu.indiewalkabout.run.network.di.networkModule
 import eu.indiewalkabout.run.location.di.locationModule
 import eu.indiewalkabout.run.presentation.di.runPresentationModule
 import eu.indiewalkabout.auth.data.di.authDataModule
@@ -35,7 +36,8 @@ class RuniqueApp: Application() {
                 coreDataModule,
                 runPresentationModule,
                 locationModule,
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }
