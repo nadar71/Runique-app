@@ -2,7 +2,6 @@
 
 package eu.indiewalkabout.run.presentation.run_overview
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -37,12 +36,14 @@ import org.koin.androidx.compose.koinViewModel
 fun RunOverviewScreenRoot(
     onStartRunClick: () -> Unit,
     onLogoutClick: () -> Unit,
+    onAnalyticsClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel(),
 ) {
     RunOverviewScreen(
         state = viewModel.state,
         onAction = { action ->
             when(action) {
+                RunOverviewAction.OnAnalyticsClick -> onAnalyticsClick()
                 RunOverviewAction.OnStartClick -> onStartRunClick()
                 RunOverviewAction.OnLogoutClick -> onLogoutClick()
                 else -> Unit
