@@ -3,7 +3,7 @@ package eu.indiewalkabout.runique
 import android.app.Application
 import android.content.Context
 import com.google.android.play.core.splitcompat.SplitCompat
-import com.plcoding.run.data.di.runDataModule
+import eu.indiewalkabout.run.data.di.runDataModule
 import eu.indiewalkabout.run.network.di.networkModule
 import eu.indiewalkabout.run.location.di.locationModule
 import eu.indiewalkabout.run.presentation.di.runPresentationModule
