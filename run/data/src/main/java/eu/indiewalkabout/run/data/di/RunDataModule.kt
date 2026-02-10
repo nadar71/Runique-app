@@ -1,4 +1,4 @@
-package com.plcoding.run.data.di
+package eu.indiewalkabout.run.data.di
 
 import eu.indiewalkabout.core.domain.run.SyncRunScheduler
 import eu.indiewalkabout.run.data.CreateRunWorker
