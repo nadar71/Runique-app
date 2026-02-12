@@ -1,4 +1,4 @@
-package com.plcoding.analytics.data.di
+package eu.indiewalkabout.analytics.data.di
 
 import eu.indiewalkabout.analytics.data.RoomAnalyticsRepository
 import eu.indiewalkabout.analytics.domain.AnalyticsRepository
